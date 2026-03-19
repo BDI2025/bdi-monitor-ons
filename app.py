@@ -237,8 +237,9 @@ if st.session_state['precios_vivo']:
         df_resultados = pd.DataFrame(resultados).sort_values(by="TIR USD (%)", ascending=False)
         df_resultados.set_index("Ticker", inplace=True)
         
-        # TABLA DEFINITIVA BLOOMBERG
+        ## TABLA DEFINITIVA BLOOMBERG
         st.subheader("📊 Panel de Rendimientos Institucional")
+        st.markdown("💡 **Tip:** Hacé clic en cualquier fila de la tabla para ver la ficha técnica de la empresa.")
         
         # Formateo visual
         formato_columnas = {
@@ -252,13 +253,39 @@ if st.session_state['precios_vivo']:
             "Convexity": "{:.2f}"
         }
         
-        # 1. Volvemos a la tabla limpia y perfecta (sin el tooltip que rompe el HTML)
-        st.dataframe(df_resultados.style.format(formato_columnas), use_container_width=True, height=350)
+        # 1. Tabla interactiva: guardamos el evento de clic en la variable 'seleccion'
+        seleccion = st.dataframe(
+            df_resultados.style.format(formato_columnas), 
+            use_container_width=True, 
+            height=350,
+            on_select="rerun",
+            selection_mode="single-row"
+        )
         
-        # 2. Agregamos el menú desplegable prolijo con las descripciones
-        with st.expander("ℹ️ Ver información detallada de las empresas"):
-            for t in df_resultados.index:
-                st.markdown(f"**{t} ({bonos_maestros[t]['empresa']}):** {bonos_maestros[t]['descripcion']}")
+        # 2. La magia: Si el usuario seleccionó una fila, mostramos la Ficha Técnica
+        filas_seleccionadas = seleccion.selection.rows
+        if len(filas_seleccionadas) > 0:
+            # Obtenemos el índice numérico de la fila tocada y buscamos el Ticker
+            indice_fila = filas_seleccionadas[0]
+            ticker_elegido = df_resultados.index[indice_fila]
+            
+            # Traemos la info de nuestra base de datos maestra
+            nombre_empresa = bonos_maestros[ticker_elegido]["empresa"]
+            desc_empresa = bonos_maestros[ticker_elegido]["descripcion"]
+            calificacion = bonos_maestros[ticker_elegido]["calificacion"]
+            ley = bonos_maestros[ticker_elegido]["ley"]
+            
+            # Dibujamos una tarjeta estética (Card)
+            st.markdown("---")
+            st.markdown(f"<h4 style='color: {C_VERDE_OSC};'>🏢 Ficha Técnica: {nombre_empresa} ({ticker_elegido})</h4>", unsafe_allow_html=True)
+            
+            col_info1, col_info2, col_info3 = st.columns(3)
+            col_info1.markdown(f"**Calificación Crediticia:** {calificacion}")
+            col_info2.markdown(f"**Legislación:** Ley {ley}")
+            col_info3.markdown(f"**Lámina Mínima:** {bonos_maestros[ticker_elegido]['lamina']}")
+            
+            st.info(f"**Perfil Corporativo:** {desc_empresa}")
+            st.markdown("---")
         # GRÁFICO (Sin Mod Duration, ahora usa Macaulay)
         st.subheader("📈 Curva de Riesgo/Retorno")
         fig, ax = plt.subplots(figsize=(12, 7))
