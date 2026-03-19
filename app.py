@@ -271,6 +271,4 @@ if st.session_state['precios_vivo']:
         plt.grid(True, color=C_VERDE_OSC, linestyle='-', alpha=0.15, zorder=0)
         plt.legend(loc='best', facecolor=C_CREMA, edgecolor=C_GRIS_OSC, labelcolor=C_GRIS_OSC)
         
-        st.pyplot(fig)r=C_GRIS_OSC)
-        
         st.pyplot(fig)
