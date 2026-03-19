@@ -238,7 +238,7 @@ if st.session_state['precios_vivo']:
         df_resultados.set_index("Ticker", inplace=True)
         
         # TABLA DEFINITIVA BLOOMBERG
-        st.subheader(f"📊 Panel de Rendimientos Institucional")
+        st.subheader("📊 Panel de Rendimientos Institucional")
         
         # Formateo visual
         formato_columnas = {
@@ -252,13 +252,13 @@ if st.session_state['precios_vivo']:
             "Convexity": "{:.2f}"
         }
         
-        # LA MAGIA DEL TOOLTIP: Creamos una función que inyecta la descripción
-        st.dataframe(df_resultados.style.format(formato_columnas)\
-                                        .set_tooltips(pd.DataFrame({
-                                            "Empresa": [bonos_maestros[t]["descripcion"] for t in df_resultados.index]
-                                        }, index=df_resultados.index)), 
-                     use_container_width=True, height=350)
+        # 1. Volvemos a la tabla limpia y perfecta (sin el tooltip que rompe el HTML)
+        st.dataframe(df_resultados.style.format(formato_columnas), use_container_width=True, height=350)
         
+        # 2. Agregamos el menú desplegable prolijo con las descripciones
+        with st.expander("ℹ️ Ver información detallada de las empresas"):
+            for t in df_resultados.index:
+                st.markdown(f"**{t} ({bonos_maestros[t]['empresa']}):** {bonos_maestros[t]['descripcion']}")
         # GRÁFICO (Sin Mod Duration, ahora usa Macaulay)
         st.subheader("📈 Curva de Riesgo/Retorno")
         fig, ax = plt.subplots(figsize=(12, 7))
