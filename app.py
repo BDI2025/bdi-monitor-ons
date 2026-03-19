@@ -59,13 +59,14 @@ def descargar_panel_data912():
     return precios
 
 # ==========================================
-# 3. BASE DE DATOS MAESTRA (Con datos estáticos institucionales)
+# 3. BASE DE DATOS MAESTRA (Con tooltips)
 # ==========================================
 bonos_maestros = {
     "TLCP": {
         "ars": "TLCPO", "usd": "TLCPD", 
         "empresa": "Telecom Arg.", "lamina": 1, "ley": "NY", "calificacion": "AA-", 
         "cupon_anual": 9.25, "vr_actual": 100.0,
+        "descripcion": "Empresa líder en telecomunicaciones de Argentina. Provee servicios de telefonía, internet y televisión.", # <--- EL TEXTO DEL CARTELITO
         "fechas": [date(2025, 5, 28), date(2025, 11, 28), date(2026, 5, 28), date(2026, 11, 28), date(2027, 5, 28), date(2027, 11, 28), date(2028, 5, 28), date(2028, 11, 28), date(2029, 5, 28), date(2029, 11, 28), date(2030, 5, 28), date(2030, 11, 28), date(2031, 5, 28), date(2031, 11, 28), date(2032, 5, 28), date(2032, 11, 28), date(2033, 5, 28)], 
         "flujos": [0.00, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 54.63, 2.31, 52.31]
     },
@@ -73,6 +74,7 @@ bonos_maestros = {
         "ars": "IRCPO", "usd": "IRCPD", 
         "empresa": "IRSA", "lamina": 0, "ley": "-", "calificacion": "-", 
         "cupon_anual": 8.00, "vr_actual": 100.0,
+        "descripcion": "Desarrolladora inmobiliaria (shoppings, oficinas).", # <--- A COMPLETAR
         "fechas": [date(2025, 3, 31), date(2025, 9, 30), date(2026, 3, 31), date(2026, 9, 30), date(2027, 3, 31), date(2027, 9, 30), date(2028, 3, 31), date(2028, 9, 30), date(2029, 3, 31), date(2029, 9, 30), date(2030, 3, 31), date(2030, 9, 30), date(2031, 3, 31), date(2031, 9, 30), date(2032, 3, 31), date(2032, 9, 30), date(2033, 3, 31), date(2033, 9, 30), date(2034, 3, 31), date(2034, 9, 30), date(2035, 3, 31)], 
         "flujos": [0.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 37.00, 2.68, 35.68, 1.36, 35.36]
     },
@@ -80,6 +82,7 @@ bonos_maestros = {
         "ars": "VSCVO", "usd": "VSCVD", 
         "empresa": "Vista Energy", "lamina": 0, "ley": "-", "calificacion": "-", 
         "cupon_anual": 8.50, "vr_actual": 100.0,
+        "descripcion": "Empresa enfocada en exploración y producción de petróleo y gas (Vaca Muerta).", # <--- A COMPLETAR
         "fechas": [date(2025, 6, 10), date(2025, 12, 10), date(2026, 6, 10), date(2026, 12, 10), date(2027, 6, 10), date(2027, 12, 10), date(2028, 6, 10), date(2028, 12, 10), date(2029, 6, 10), date(2029, 12, 10), date(2030, 6, 10), date(2030, 12, 10), date(2031, 6, 10), date(2031, 12, 10), date(2032, 6, 10), date(2032, 12, 10), date(2033, 6, 10)], 
         "flujos": [0.00, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 37.25, 2.85, 35.85, 1.45, 35.45]
     },
@@ -87,6 +90,7 @@ bonos_maestros = {
         "ars": "PLC5O", "usd": "PLC5D", 
         "empresa": "Pampa Energía", "lamina": 0, "ley": "-", "calificacion": "-", 
         "cupon_anual": 8.12, "vr_actual": 100.0,
+        "descripcion": "Generación, transmisión y distribución de energía eléctrica, y gas.", # <--- A COMPLETAR
         "fechas": [date(2025, 11, 18), date(2026, 5, 18), date(2026, 11, 18), date(2027, 5, 18), date(2027, 11, 18), date(2028, 5, 18), date(2028, 11, 18), date(2029, 5, 18), date(2029, 11, 18), date(2030, 5, 18), date(2030, 11, 18), date(2031, 5, 18)], 
         "flujos": [0.00, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 104.06]
     },
@@ -94,6 +98,7 @@ bonos_maestros = {
         "ars": "TSC4O", "usd": "TSC4D", 
         "empresa": "Tecpetrol", "lamina": 0, "ley": "-", "calificacion": "-", 
         "cupon_anual": 7.76, "vr_actual": 100.0,
+        "descripcion": "Compañía de energía, enfocada en la exploración y producción de hidrocarburos.", # <--- A COMPLETAR
         "fechas": [date(2025, 11, 20), date(2026, 5, 20), date(2026, 11, 20), date(2027, 5, 20), date(2027, 11, 20), date(2028, 5, 20), date(2028, 11, 20), date(2029, 5, 20), date(2029, 11, 20), date(2030, 5, 20), date(2030, 11, 20), date(2031, 5, 20), date(2031, 11, 20), date(2032, 5, 20), date(2032, 11, 20), date(2033, 5, 20), date(2033, 11, 20), date(2034, 5, 20), date(2034, 11, 20), date(2035, 5, 20), date(2035, 11, 20)], 
         "flujos": [0.00, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 103.88]
     },
@@ -101,6 +106,7 @@ bonos_maestros = {
         "ars": "MGCOO", "usd": "MGCOD", 
         "empresa": "CGC", "lamina": 0, "ley": "-", "calificacion": "-", 
         "cupon_anual": 7.88, "vr_actual": 100.0,
+        "descripcion": "Compañía General de Combustibles.", # <--- A COMPLETAR
         "fechas": [date(2024, 12, 16), date(2025, 6, 16), date(2025, 12, 16), date(2026, 6, 16), date(2026, 12, 16), date(2027, 6, 16), date(2027, 12, 16), date(2028, 6, 16), date(2028, 12, 16), date(2029, 6, 16), date(2029, 12, 16), date(2030, 6, 16), date(2030, 12, 16), date(2031, 6, 16), date(2031, 12, 16), date(2032, 6, 16), date(2032, 12, 16), date(2033, 6, 16), date(2033, 12, 16), date(2034, 6, 16), date(2034, 12, 16)], 
         "flujos": [0.00, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 103.94]
     },
@@ -108,6 +114,7 @@ bonos_maestros = {
         "ars": "TTCDO", "usd": "TTCDD", 
         "empresa": "Transportadora Gas", "lamina": 0, "ley": "-", "calificacion": "-", 
         "cupon_anual": 7.62, "vr_actual": 100.0,
+        "descripcion": "Transporte de gas natural.", # <--- A COMPLETAR
         "fechas": [date(2025, 11, 3), date(2026, 5, 3), date(2026, 11, 3), date(2027, 5, 3), date(2027, 11, 3), date(2028, 5, 3), date(2028, 11, 3), date(2029, 5, 3), date(2029, 11, 3), date(2030, 5, 3), date(2030, 11, 3)], 
         "flujos": [0.00, 3.81, 3.81, 3.81, 3.81, 3.81, 3.81, 3.81, 3.81, 3.81, 103.81]
     },
@@ -115,6 +122,7 @@ bonos_maestros = {
         "ars": "BACGO", "usd": "BACGD", 
         "empresa": "Banco Macro", "lamina": 0, "ley": "-", "calificacion": "-", 
         "cupon_anual": 8.00, "vr_actual": 100.0,
+        "descripcion": "Entidad bancaria privada de Argentina.", # <--- A COMPLETAR
         "fechas": [date(2025, 6, 23), date(2025, 12, 23), date(2026, 6, 23), date(2026, 12, 23), date(2027, 6, 23), date(2027, 12, 23), date(2028, 6, 23), date(2028, 12, 23), date(2029, 6, 23)], 
         "flujos": [0.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 104.00]
     }
@@ -227,8 +235,6 @@ if st.session_state['precios_vivo']:
     if resultados:
         # Armamos el DataFrame y lo ordenamos
         df_resultados = pd.DataFrame(resultados).sort_values(by="TIR USD (%)", ascending=False)
-        
-        # ACA ESTÁ LA MAGIA: Convertimos la columna "Ticker" en el Índice de la tabla
         df_resultados.set_index("Ticker", inplace=True)
         
         # TABLA DEFINITIVA BLOOMBERG
@@ -246,7 +252,12 @@ if st.session_state['precios_vivo']:
             "Convexity": "{:.2f}"
         }
         
-        st.dataframe(df_resultados.style.format(formato_columnas), use_container_width=True, height=350)
+        # LA MAGIA DEL TOOLTIP: Creamos una función que inyecta la descripción
+        st.dataframe(df_resultados.style.format(formato_columnas)\
+                                        .set_tooltips(pd.DataFrame({
+                                            "Empresa": [bonos_maestros[t]["descripcion"] for t in df_resultados.index]
+                                        }, index=df_resultados.index)), 
+                     use_container_width=True, height=350)
         
         # GRÁFICO (Sin Mod Duration, ahora usa Macaulay)
         st.subheader("📈 Curva de Riesgo/Retorno")
@@ -263,7 +274,6 @@ if st.session_state['precios_vivo']:
             x_trend = np.linspace(min(x), max(x), 100)
             plt.plot(x_trend, p(x_trend), color=C_LIMA, linestyle='--', linewidth=3, zorder=4, alpha=0.9, label='Curva de Rendimiento')
 
-        # Como Ticker ahora es el índice, lo llamamos con row.name
         for i, row in df_resultados.iterrows():
             plt.annotate(row.name, (row["Mac. Duration"], row["TIR USD (%)"]), textcoords="offset points", xytext=(0,13), ha='center', fontsize=10, fontweight='bold', color=C_GRIS_OSC, bbox=dict(facecolor='#FFFFFF', edgecolor='none', alpha=0.8, pad=1))
 
