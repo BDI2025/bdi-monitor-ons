@@ -65,56 +65,56 @@ bonos_maestros = {
     "TLCP": {
         "ars": "TLCPO", "usd": "TLCPD", 
         "empresa": "Telecom Arg.", "lamina": 1, "ley": "NY", "calificacion": "AA-", 
-        "cupon_anual": 9.25, "vr_actual": 100.0, # Cupón 9.25% (paga 4.63 semestral) y Valor Residual hoy
+        "cupon_anual": 9.25, "vr_actual": 100.0,
         "fechas": [date(2025, 5, 28), date(2025, 11, 28), date(2026, 5, 28), date(2026, 11, 28), date(2027, 5, 28), date(2027, 11, 28), date(2028, 5, 28), date(2028, 11, 28), date(2029, 5, 28), date(2029, 11, 28), date(2030, 5, 28), date(2030, 11, 28), date(2031, 5, 28), date(2031, 11, 28), date(2032, 5, 28), date(2032, 11, 28), date(2033, 5, 28)], 
         "flujos": [0.00, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 4.63, 54.63, 2.31, 52.31]
     },
     "IRCP": {
         "ars": "IRCPO", "usd": "IRCPD", 
         "empresa": "IRSA", "lamina": 0, "ley": "-", "calificacion": "-", 
-        "cupon_anual": 8.00, "vr_actual": 100.0, # A COMPLETAR
+        "cupon_anual": 8.00, "vr_actual": 100.0,
         "fechas": [date(2025, 3, 31), date(2025, 9, 30), date(2026, 3, 31), date(2026, 9, 30), date(2027, 3, 31), date(2027, 9, 30), date(2028, 3, 31), date(2028, 9, 30), date(2029, 3, 31), date(2029, 9, 30), date(2030, 3, 31), date(2030, 9, 30), date(2031, 3, 31), date(2031, 9, 30), date(2032, 3, 31), date(2032, 9, 30), date(2033, 3, 31), date(2033, 9, 30), date(2034, 3, 31), date(2034, 9, 30), date(2035, 3, 31)], 
         "flujos": [0.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 37.00, 2.68, 35.68, 1.36, 35.36]
     },
     "VSCV": {
         "ars": "VSCVO", "usd": "VSCVD", 
         "empresa": "Vista Energy", "lamina": 0, "ley": "-", "calificacion": "-", 
-        "cupon_anual": 8.50, "vr_actual": 100.0, # A COMPLETAR
+        "cupon_anual": 8.50, "vr_actual": 100.0,
         "fechas": [date(2025, 6, 10), date(2025, 12, 10), date(2026, 6, 10), date(2026, 12, 10), date(2027, 6, 10), date(2027, 12, 10), date(2028, 6, 10), date(2028, 12, 10), date(2029, 6, 10), date(2029, 12, 10), date(2030, 6, 10), date(2030, 12, 10), date(2031, 6, 10), date(2031, 12, 10), date(2032, 6, 10), date(2032, 12, 10), date(2033, 6, 10)], 
         "flujos": [0.00, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25, 37.25, 2.85, 35.85, 1.45, 35.45]
     },
     "PLC5": {
         "ars": "PLC5O", "usd": "PLC5D", 
         "empresa": "Pampa Energía", "lamina": 0, "ley": "-", "calificacion": "-", 
-        "cupon_anual": 8.12, "vr_actual": 100.0, # A COMPLETAR
+        "cupon_anual": 8.12, "vr_actual": 100.0,
         "fechas": [date(2025, 11, 18), date(2026, 5, 18), date(2026, 11, 18), date(2027, 5, 18), date(2027, 11, 18), date(2028, 5, 18), date(2028, 11, 18), date(2029, 5, 18), date(2029, 11, 18), date(2030, 5, 18), date(2030, 11, 18), date(2031, 5, 18)], 
         "flujos": [0.00, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 4.06, 104.06]
     },
     "TSC4": {
         "ars": "TSC4O", "usd": "TSC4D", 
         "empresa": "Tecpetrol", "lamina": 0, "ley": "-", "calificacion": "-", 
-        "cupon_anual": 7.76, "vr_actual": 100.0, # A COMPLETAR
+        "cupon_anual": 7.76, "vr_actual": 100.0,
         "fechas": [date(2025, 11, 20), date(2026, 5, 20), date(2026, 11, 20), date(2027, 5, 20), date(2027, 11, 20), date(2028, 5, 20), date(2028, 11, 20), date(2029, 5, 20), date(2029, 11, 20), date(2030, 5, 20), date(2030, 11, 20), date(2031, 5, 20), date(2031, 11, 20), date(2032, 5, 20), date(2032, 11, 20), date(2033, 5, 20), date(2033, 11, 20), date(2034, 5, 20), date(2034, 11, 20), date(2035, 5, 20), date(2035, 11, 20)], 
         "flujos": [0.00, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 3.88, 103.88]
     },
     "MGCO": {
         "ars": "MGCOO", "usd": "MGCOD", 
         "empresa": "CGC", "lamina": 0, "ley": "-", "calificacion": "-", 
-        "cupon_anual": 7.88, "vr_actual": 100.0, # A COMPLETAR
+        "cupon_anual": 7.88, "vr_actual": 100.0,
         "fechas": [date(2024, 12, 16), date(2025, 6, 16), date(2025, 12, 16), date(2026, 6, 16), date(2026, 12, 16), date(2027, 6, 16), date(2027, 12, 16), date(2028, 6, 16), date(2028, 12, 16), date(2029, 6, 16), date(2029, 12, 16), date(2030, 6, 16), date(2030, 12, 16), date(2031, 6, 16), date(2031, 12, 16), date(2032, 6, 16), date(2032, 12, 16), date(2033, 6, 16), date(2033, 12, 16), date(2034, 6, 16), date(2034, 12, 16)], 
         "flujos": [0.00, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 3.94, 103.94]
     },
     "TTCD": {
         "ars": "TTCDO", "usd": "TTCDD", 
         "empresa": "Transportadora Gas", "lamina": 0, "ley": "-", "calificacion": "-", 
-        "cupon_anual": 7.62, "vr_actual": 100.0, # A COMPLETAR
+        "cupon_anual": 7.62, "vr_actual": 100.0,
         "fechas": [date(2025, 11, 3), date(2026, 5, 3), date(2026, 11, 3), date(2027, 5, 3), date(2027, 11, 3), date(2028, 5, 3), date(2028, 11, 3), date(2029, 5, 3), date(2029, 11, 3), date(2030, 5, 3), date(2030, 11, 3)], 
         "flujos": [0.00, 3.81, 3.81, 3.81, 3.81, 3.81, 3.81, 3.81, 3.81, 3.81, 103.81]
     },
     "BACG": {
         "ars": "BACGO", "usd": "BACGD", 
         "empresa": "Banco Macro", "lamina": 0, "ley": "-", "calificacion": "-", 
-        "cupon_anual": 8.00, "vr_actual": 100.0, # A COMPLETAR
+        "cupon_anual": 8.00, "vr_actual": 100.0,
         "fechas": [date(2025, 6, 23), date(2025, 12, 23), date(2026, 6, 23), date(2026, 12, 23), date(2027, 6, 23), date(2027, 12, 23), date(2028, 6, 23), date(2028, 12, 23), date(2029, 6, 23)], 
         "flujos": [0.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 104.00]
     }
@@ -205,8 +205,8 @@ if st.session_state['precios_vivo']:
             paridad = (precio_inversion_usd / valor_tecnico) * 100 if valor_tecnico > 0 else 0
             
             resultados.append({
-                "Empresa": info["empresa"],
                 "Ticker": ticker,
+                "Empresa": info["empresa"],
                 "Lámina": info["lamina"],
                 "Ley": info["ley"],
                 "Calificación": info["calificacion"],
@@ -225,7 +225,11 @@ if st.session_state['precios_vivo']:
         except: continue
             
     if resultados:
+        # Armamos el DataFrame y lo ordenamos
         df_resultados = pd.DataFrame(resultados).sort_values(by="TIR USD (%)", ascending=False)
+        
+        # ACA ESTÁ LA MAGIA: Convertimos la columna "Ticker" en el Índice de la tabla
+        df_resultados.set_index("Ticker", inplace=True)
         
         # TABLA DEFINITIVA BLOOMBERG
         st.subheader(f"📊 Panel de Rendimientos Institucional")
@@ -259,8 +263,9 @@ if st.session_state['precios_vivo']:
             x_trend = np.linspace(min(x), max(x), 100)
             plt.plot(x_trend, p(x_trend), color=C_LIMA, linestyle='--', linewidth=3, zorder=4, alpha=0.9, label='Curva de Rendimiento')
 
+        # Como Ticker ahora es el índice, lo llamamos con row.name
         for i, row in df_resultados.iterrows():
-            plt.annotate(row["Ticker"], (row["Mac. Duration"], row["TIR USD (%)"]), textcoords="offset points", xytext=(0,13), ha='center', fontsize=10, fontweight='bold', color=C_GRIS_OSC, bbox=dict(facecolor='#FFFFFF', edgecolor='none', alpha=0.8, pad=1))
+            plt.annotate(row.name, (row["Mac. Duration"], row["TIR USD (%)"]), textcoords="offset points", xytext=(0,13), ha='center', fontsize=10, fontweight='bold', color=C_GRIS_OSC, bbox=dict(facecolor='#FFFFFF', edgecolor='none', alpha=0.8, pad=1))
 
         plt.title("Frontera Eficiente: Obligaciones Negociables", fontsize=18, fontweight='bold', color=C_VERDE_OSC, pad=15)
         plt.xlabel("Riesgo (Macaulay Duration - Años)", fontsize=12, fontweight='bold', color=C_GRIS_OSC)
