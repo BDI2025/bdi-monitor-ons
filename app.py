@@ -44,7 +44,7 @@ def obtener_dolar_mep():
         respuesta = requests.get(url).json()
         return respuesta["venta"]
     except Exception as e:
-        st.sidebar.error(f"⚠️ Error MEP: {e}")
+        st.error(f"⚠️ Error MEP: {e}")
         return 1040.0
 
 def descargar_panel_data912():
@@ -61,9 +61,9 @@ def descargar_panel_data912():
                 if ticker and precio:
                     precios[ticker] = float(precio)
         else:
-            st.sidebar.error(f"⚠️ Error Data912 HTTP: {respuesta.status_code}")
+            st.error(f"⚠️ Error Data912 HTTP: {respuesta.status_code}")
     except Exception as e:
-        st.sidebar.error(f"⚠️ Error conectando a Data912: {e}")
+        st.error(f"⚠️ Error conectando a Data912: {e}")
     return precios
 
 # ==========================================
@@ -81,129 +81,146 @@ bonos_maestros = {
 }
 
 # ==========================================
-# 4. INTERFAZ WEB BDI
+# 4. MEMORIA DE SESIÓN (Para no re-descargar al mover el slider)
+# ==========================================
+if 'precios_vivo' not in st.session_state:
+    st.session_state['precios_vivo'] = {}
+    st.session_state['mep_hoy'] = 1040.0
+
+# ==========================================
+# 5. INTERFAZ WEB BDI
 # ==========================================
 st.markdown(f"<h1 style='color: {C_VERDE_OSC}; font-weight: bold;'>BDI Consultora Patrimonial</h1>", unsafe_allow_html=True)
 st.markdown(f"<h3 style='color: {C_GRIS_OSC};'>Frontera Eficiente de Obligaciones Negociables</h3>", unsafe_allow_html=True)
 st.divider()
 
-if st.button("🔄 Descargar Panel en Vivo y Calcular", type="primary"):
+# Botón de Descarga Inicial
+col_boton, col_info = st.columns([1, 2])
+with col_boton:
+    if st.button("🔄 1. Descargar Precios Reales en Vivo", type="primary"):
+        with st.spinner('Conectando a Data912 y DolarAPI...'):
+            st.session_state['mep_hoy'] = obtener_dolar_mep()
+            st.session_state['precios_vivo'] = descargar_panel_data912()
+        st.success("✅ Datos sincronizados con el mercado.")
+
+# Si ya tenemos datos guardados en la memoria de la sesión, mostramos el simulador
+if st.session_state['precios_vivo']:
+    st.divider()
+    
+    # EL SIMULADOR DE ESCENARIOS
+    st.markdown(f"<h4 style='color: {C_VERDE_OSC};'>🎛️ 2. Simulador de Sensibilidad</h4>", unsafe_allow_html=True)
+    st.markdown("Deslizá la barra para simular una subida o bajada en el precio de los bonos en el mercado secundario y observar el impacto en la TIR al instante.")
+    
+    variacion_precio = st.slider("Variación del Precio de Mercado (%)", min_value=-20.0, max_value=20.0, value=0.0, step=0.5, format="%f%%")
+    
     resultados = []
     hoy = date.today()
+    mep_hoy = st.session_state['mep_hoy']
+    precios_vivo = st.session_state['precios_vivo']
     
-    with st.spinner('Conectando a Data912 y DolarAPI...'):
-        mep_hoy = obtener_dolar_mep()
-        precios_vivo = descargar_panel_data912()
+    for ticker, info in bonos_maestros.items():
+        p_usd_real = precios_vivo.get(info["usd"], 0)
+        p_ars_real = precios_vivo.get(info["ars"], 0)
         
-        st.success(f"✅ Conexión exitosa. Dólar MEP de referencia: ${mep_hoy:,.2f}")
+        if p_usd_real <= 0: 
+            continue
         
-        for ticker, info in bonos_maestros.items():
-            p_usd = precios_vivo.get(info["usd"], 0)
-            p_ars = precios_vivo.get(info["ars"], 0)
-            
-            if p_usd <= 0: 
-                continue
-            
-            precio_inversion_usd = p_usd * 100 if p_usd < 10 else p_usd
-            dolar_cable = p_ars / p_usd if p_usd > 0 else 0
-            costo_inversion_ars_en_usd = precio_inversion_usd * (dolar_cable / mep_hoy) if mep_hoy else precio_inversion_usd
+        # APLICAMOS LA MAGIA DEL SIMULADOR AL PRECIO REAL
+        p_usd_simulado = p_usd_real * (1 + (variacion_precio / 100))
+        p_ars_simulado = p_ars_real * (1 + (variacion_precio / 100))
+        
+        precio_inversion_usd = p_usd_simulado * 100 if p_usd_simulado < 10 else p_usd_simulado
+        dolar_cable = p_ars_simulado / p_usd_simulado if p_usd_simulado > 0 else 0
+        costo_inversion_ars_en_usd = precio_inversion_usd * (dolar_cable / mep_hoy) if mep_hoy else precio_inversion_usd
 
-            fechas_futuras = [f for f in info["fechas"] if f >= hoy]
-            flujos_futuros = [info["flujos"][i] for i, f in enumerate(info["fechas"]) if f >= hoy]
+        fechas_futuras = [f for f in info["fechas"] if f >= hoy]
+        flujos_futuros = [info["flujos"][i] for i, f in enumerate(info["fechas"]) if f >= hoy]
+        
+        if not fechas_futuras: continue
+        
+        fechas_tir = [hoy] + fechas_futuras
+        flujos_tir_usd = [-precio_inversion_usd] + flujos_futuros
+        flujos_tir_ars = [-costo_inversion_ars_en_usd] + flujos_futuros
+        
+        try:
+            tir_usd = pyxirr.xirr(fechas_tir, flujos_tir_usd)
+            tir_ars = pyxirr.xirr(fechas_tir, flujos_tir_ars)
             
-            if not fechas_futuras: continue
-            
-            fechas_tir = [hoy] + fechas_futuras
-            flujos_tir_usd = [-precio_inversion_usd] + flujos_futuros
-            flujos_tir_ars = [-costo_inversion_ars_en_usd] + flujos_futuros
-            
-            try:
-                tir_usd = pyxirr.xirr(fechas_tir, flujos_tir_usd)
-                tir_ars = pyxirr.xirr(fechas_tir, flujos_tir_ars)
+            pv_total, suma_t_pv = 0, 0
+            for i in range(len(fechas_futuras)):
+                t = (fechas_futuras[i] - hoy).days / 365.0
+                pv = flujos_futuros[i] / ((1 + tir_usd) ** t)
+                pv_total += pv
+                suma_t_pv += (t * pv)
                 
-                pv_total, suma_t_pv = 0, 0
-                for i in range(len(fechas_futuras)):
-                    t = (fechas_futuras[i] - hoy).days / 365.0
-                    pv = flujos_futuros[i] / ((1 + tir_usd) ** t)
-                    pv_total += pv
-                    suma_t_pv += (t * pv)
-                    
-                macaulay_duration = suma_t_pv / pv_total
-                modified_duration = macaulay_duration / (1 + tir_usd)
-                
-                resultados.append({
-                    "Ticker": ticker,
-                    "Precio ARS": round(p_ars, 2),
-                    "Precio USD": round(precio_inversion_usd, 2),
-                    "Dólar Implícito": round(dolar_cable, 2),
-                    "TIR USD (%)": round(tir_usd * 100, 2),
-                    "TIR ARS (%)": round(tir_ars * 100, 2),
-                    "Macaulay Duration": round(macaulay_duration, 2),
-                    "Modified Duration": round(modified_duration, 2)
-                })
-            except Exception as e:
-                st.warning(f"Error calculando {ticker}: {e}")
-                continue
-                
-        if resultados:
-            df_resultados = pd.DataFrame(resultados).sort_values(by="TIR USD (%)", ascending=False)
+            macaulay_duration = suma_t_pv / pv_total
+            modified_duration = macaulay_duration / (1 + tir_usd)
             
-            # TABLA
-            st.subheader("📊 Panel de Rendimientos Dual Currency")
-            st.dataframe(df_resultados.style.format({
-                "Precio ARS": "${:,.2f}", 
-                "Precio USD": "US${:,.2f}", 
-                "Dólar Implícito": "${:,.2f}",
-                "TIR USD (%)": "{:.2f}%", 
-                "TIR ARS (%)": "{:.2f}%", 
-                "Macaulay Duration": "{:.2f}",
-                "Modified Duration": "{:.2f}"
-            }), use_container_width=True)
+            resultados.append({
+                "Ticker": ticker,
+                "Precio ARS (Sim)": round(p_ars_simulado, 2),
+                "Precio USD (Sim)": round(precio_inversion_usd, 2),
+                "Dólar Implícito": round(dolar_cable, 2),
+                "TIR USD (%)": round(tir_usd * 100, 2),
+                "TIR ARS (%)": round(tir_ars * 100, 2),
+                "Macaulay Duration": round(macaulay_duration, 2),
+                "Modified Duration": round(modified_duration, 2)
+            })
+        except Exception as e:
+            st.warning(f"Error calculando {ticker}: {e}")
+            continue
             
-            # GRÁFICO
-            st.subheader("📈 Curva de Riesgo/Retorno")
-            fig, ax = plt.subplots(figsize=(12, 7))
-            
-            x = df_resultados["Modified Duration"]
-            y = df_resultados["TIR USD (%)"]
+    if resultados:
+        df_resultados = pd.DataFrame(resultados).sort_values(by="TIR USD (%)", ascending=False)
+        
+        # TABLA
+        st.subheader(f"📊 Panel de Rendimientos (Dólar MEP de ref: ${mep_hoy:,.2f})")
+        st.dataframe(df_resultados.style.format({
+            "Precio ARS (Sim)": "${:,.2f}", 
+            "Precio USD (Sim)": "US${:,.2f}", 
+            "Dólar Implícito": "${:,.2f}",
+            "TIR USD (%)": "{:.2f}%", 
+            "TIR ARS (%)": "{:.2f}%", 
+            "Macaulay Duration": "{:.2f}",
+            "Modified Duration": "{:.2f}"
+        }), use_container_width=True)
+        
+        # GRÁFICO
+        st.subheader("📈 Curva de Riesgo/Retorno (En Vivo)")
+        fig, ax = plt.subplots(figsize=(12, 7))
+        
+        x = df_resultados["Modified Duration"]
+        y = df_resultados["TIR USD (%)"]
 
-            # Scatter
-            plt.scatter(x, y, color=C_CYAN, s=160, edgecolor=C_VERDE_OSC, linewidth=1.5, zorder=5, label='ONs')
+        plt.scatter(x, y, color=C_CYAN, s=160, edgecolor=C_VERDE_OSC, linewidth=1.5, zorder=5, label='ONs')
 
-            # Curva de Tendencia
-            if len(x) > 2:
-                z = np.polyfit(x, y, 2)
-                p = np.poly1d(z)
-                x_trend = np.linspace(min(x), max(x), 100)
-                plt.plot(x_trend, p(x_trend), color=C_LIMA, linestyle='--', linewidth=3, zorder=4, alpha=0.9, label='Curva de Rendimiento')
+        if len(x) > 2:
+            z = np.polyfit(x, y, 2)
+            p = np.poly1d(z)
+            x_trend = np.linspace(min(x), max(x), 100)
+            plt.plot(x_trend, p(x_trend), color=C_LIMA, linestyle='--', linewidth=3, zorder=4, alpha=0.9, label='Curva de Rendimiento')
 
-            # Etiquetas de los Tickers
-            for i, row in df_resultados.iterrows():
-                plt.annotate(row["Ticker"], 
-                             (row["Modified Duration"], row["TIR USD (%)"]),
-                             textcoords="offset points", 
-                             xytext=(0,13), 
-                             ha='center',
-                             fontsize=10,
-                             fontweight='bold',
-                             color=C_GRIS_OSC,
-                             bbox=dict(facecolor='#FFFFFF', edgecolor='none', alpha=0.8, pad=1))
+        for i, row in df_resultados.iterrows():
+            plt.annotate(row["Ticker"], 
+                         (row["Modified Duration"], row["TIR USD (%)"]),
+                         textcoords="offset points", 
+                         xytext=(0,13), 
+                         ha='center',
+                         fontsize=10,
+                         fontweight='bold',
+                         color=C_GRIS_OSC,
+                         bbox=dict(facecolor='#FFFFFF', edgecolor='none', alpha=0.8, pad=1))
 
-            # Textos y títulos
-            plt.title("Frontera Eficiente: Obligaciones Negociables", fontsize=18, fontweight='bold', color=C_VERDE_OSC, pad=15)
-            plt.xlabel("Riesgo (Modified Duration - Años)", fontsize=12, fontweight='bold', color=C_GRIS_OSC)
-            plt.ylabel("Retorno (TIR USD)", fontsize=12, fontweight='bold', color=C_GRIS_OSC)
+        plt.title("Frontera Eficiente: Obligaciones Negociables", fontsize=18, fontweight='bold', color=C_VERDE_OSC, pad=15)
+        plt.xlabel("Riesgo (Modified Duration - Años)", fontsize=12, fontweight='bold', color=C_GRIS_OSC)
+        plt.ylabel("Retorno (TIR USD)", fontsize=12, fontweight='bold', color=C_GRIS_OSC)
 
-            # Ejes y porcentajes
-            ax.yaxis.set_major_formatter(mtick.PercentFormatter(decimals=1))
-            ax.tick_params(colors=C_GRIS_OSC)
-            for spine in ax.spines.values():
-                spine.set_edgecolor(C_GRIS_OSC)
+        ax.yaxis.set_major_formatter(mtick.PercentFormatter(decimals=1))
+        ax.tick_params(colors=C_GRIS_OSC)
+        for spine in ax.spines.values():
+            spine.set_edgecolor(C_GRIS_OSC)
 
-            # Grilla y Leyenda
-            plt.grid(True, color=C_VERDE_OSC, linestyle='-', alpha=0.15, zorder=0)
-            plt.legend(loc='best', facecolor=C_CREMA, edgecolor=C_GRIS_OSC, labelcolor=C_GRIS_OSC)
-            
-            st.pyplot(fig)
-        else:
-            st.warning("No se pudieron cargar precios en USD para graficar la curva.")
+        plt.grid(True, color=C_VERDE_OSC, linestyle='-', alpha=0.15, zorder=0)
+        plt.legend(loc='best', facecolor=C_CREMA, edgecolor=C_GRIS_OSC, labelcolor=C_GRIS_OSC)
+        
+        st.pyplot(fig)
