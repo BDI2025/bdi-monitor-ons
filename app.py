@@ -81,7 +81,7 @@ bonos_maestros = {
 }
 
 # ==========================================
-# 4. MEMORIA DE SESIÓN (Para no re-descargar al mover el slider)
+# 4. MEMORIA DE SESIÓN
 # ==========================================
 if 'precios_vivo' not in st.session_state:
     st.session_state['precios_vivo'] = {}
@@ -103,15 +103,28 @@ with col_boton:
             st.session_state['precios_vivo'] = descargar_panel_data912()
         st.success("✅ Datos sincronizados con el mercado.")
 
-# Si ya tenemos datos guardados en la memoria de la sesión, mostramos el simulador
+# Si ya tenemos datos, mostramos el panel de simulación individual
 if st.session_state['precios_vivo']:
     st.divider()
     
-    # EL SIMULADOR DE ESCENARIOS
-    st.markdown(f"<h4 style='color: {C_VERDE_OSC};'>🎛️ 2. Simulador de Sensibilidad</h4>", unsafe_allow_html=True)
-    st.markdown("Deslizá la barra para simular una subida o bajada en el precio de los bonos en el mercado secundario y observar el impacto en la TIR al instante.")
+    st.markdown(f"<h4 style='color: {C_VERDE_OSC};'>🎛️ 2. Panel de Sensibilidad por Ticker</h4>", unsafe_allow_html=True)
+    st.markdown("Ajustá el precio de cada bono de forma independiente para visualizar escenarios puntuales (Ej: impacto de un buen balance en IRCP).")
     
-    variacion_precio = st.slider("Variación del Precio de Mercado (%)", min_value=-20.0, max_value=20.0, value=0.0, step=0.5, format="%f%%")
+    # Creamos una cuadrícula de 4 columnas para que quede prolijo
+    cols = st.columns(4)
+    variaciones = {}
+    
+    # Generamos los ajustadores de porcentaje dinámicamente
+    for i, ticker in enumerate(bonos_maestros.keys()):
+        with cols[i % 4]:
+            variaciones[ticker] = st.number_input(
+                f"Variación {ticker} (%)", 
+                min_value=-50.0, 
+                max_value=50.0, 
+                value=0.0, 
+                step=0.5,
+                key=f"var_{ticker}"
+            )
     
     resultados = []
     hoy = date.today()
@@ -125,9 +138,10 @@ if st.session_state['precios_vivo']:
         if p_usd_real <= 0: 
             continue
         
-        # APLICAMOS LA MAGIA DEL SIMULADOR AL PRECIO REAL
-        p_usd_simulado = p_usd_real * (1 + (variacion_precio / 100))
-        p_ars_simulado = p_ars_real * (1 + (variacion_precio / 100))
+        # APLICAMOS LA VARIACIÓN INDIVIDUAL QUE ELIGIÓ EL USUARIO
+        var_individual = variaciones[ticker]
+        p_usd_simulado = p_usd_real * (1 + (var_individual / 100))
+        p_ars_simulado = p_ars_real * (1 + (var_individual / 100))
         
         precio_inversion_usd = p_usd_simulado * 100 if p_usd_simulado < 10 else p_usd_simulado
         dolar_cable = p_ars_simulado / p_usd_simulado if p_usd_simulado > 0 else 0
@@ -186,7 +200,7 @@ if st.session_state['precios_vivo']:
         }), use_container_width=True)
         
         # GRÁFICO
-        st.subheader("📈 Curva de Riesgo/Retorno (En Vivo)")
+        st.subheader("📈 Curva de Riesgo/Retorno (Escenario Personalizado)")
         fig, ax = plt.subplots(figsize=(12, 7))
         
         x = df_resultados["Modified Duration"]
