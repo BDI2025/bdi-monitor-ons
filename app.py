@@ -103,28 +103,25 @@ with col_boton:
             st.session_state['precios_vivo'] = descargar_panel_data912()
         st.success("✅ Datos sincronizados con el mercado.")
 
-# Si ya tenemos datos, mostramos el panel de simulación individual
+# Si ya tenemos datos, mostramos el panel de simulación limpio
 if st.session_state['precios_vivo']:
     st.divider()
     
-    st.markdown(f"<h4 style='color: {C_VERDE_OSC};'>🎛️ 2. Panel de Sensibilidad por Ticker</h4>", unsafe_allow_html=True)
-    st.markdown("Ajustá el precio de cada bono de forma independiente para visualizar escenarios puntuales (Ej: impacto de un buen balance en IRCP).")
+    st.markdown(f"<h4 style='color: {C_VERDE_OSC};'>🎛️ 2. Panel de Sensibilidad Interactivo</h4>", unsafe_allow_html=True)
+    st.markdown("Simulá movimientos globales de todo el mercado, o seleccioná una ON específica para ajustar su precio de forma aislada.")
     
-    # Creamos una cuadrícula de 4 columnas para que quede prolijo
-    cols = st.columns(4)
-    variaciones = {}
+    # NUEVO PANEL DE CONTROL: 3 Columnas Limpias
+    col1, col2, col3 = st.columns(3)
     
-    # Generamos los ajustadores de porcentaje dinámicamente
-    for i, ticker in enumerate(bonos_maestros.keys()):
-        with cols[i % 4]:
-            variaciones[ticker] = st.number_input(
-                f"Variación {ticker} (%)", 
-                min_value=-50.0, 
-                max_value=50.0, 
-                value=0.0, 
-                step=0.5,
-                key=f"var_{ticker}"
-            )
+    with col1:
+        var_global = st.number_input("🌍 Variación Global a todo el panel (%)", min_value=-50.0, max_value=50.0, value=0.0, step=0.5)
+        
+    with col2:
+        opciones_tickers = ["Ninguno"] + list(bonos_maestros.keys())
+        ticker_especifico = st.selectbox("🎯 Seleccionar Ticker Específico", opciones_tickers)
+        
+    with col3:
+        var_especifica = st.number_input("📉 Variación extra al Ticker Elegido (%)", min_value=-50.0, max_value=50.0, value=0.0, step=0.5)
     
     resultados = []
     hoy = date.today()
@@ -138,10 +135,13 @@ if st.session_state['precios_vivo']:
         if p_usd_real <= 0: 
             continue
         
-        # APLICAMOS LA VARIACIÓN INDIVIDUAL QUE ELIGIÓ EL USUARIO
-        var_individual = variaciones[ticker]
-        p_usd_simulado = p_usd_real * (1 + (var_individual / 100))
-        p_ars_simulado = p_ars_real * (1 + (var_individual / 100))
+        # LÓGICA DE IMPACTO: Global + Específico
+        var_total_aplicada = var_global
+        if ticker == ticker_especifico:
+            var_total_aplicada += var_especifica
+            
+        p_usd_simulado = p_usd_real * (1 + (var_total_aplicada / 100))
+        p_ars_simulado = p_ars_real * (1 + (var_total_aplicada / 100))
         
         precio_inversion_usd = p_usd_simulado * 100 if p_usd_simulado < 10 else p_usd_simulado
         dolar_cable = p_ars_simulado / p_usd_simulado if p_usd_simulado > 0 else 0
@@ -199,7 +199,7 @@ if st.session_state['precios_vivo']:
             "Modified Duration": "{:.2f}"
         }), use_container_width=True)
         
-        # GRÁFICO
+        # GRÁFICO (Con la estética exacta que me pediste)
         st.subheader("📈 Curva de Riesgo/Retorno (Escenario Personalizado)")
         fig, ax = plt.subplots(figsize=(12, 7))
         
