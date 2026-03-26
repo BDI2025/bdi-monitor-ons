@@ -72,7 +72,7 @@ bonos_maestros = {
     },
     "IRCP": {
         "ars": "IRCPO", "usd": "IRCPD", 
-        "empresa": "IRSA", "lamina": 0, "ley": "-", "calificacion": "-", 
+        "empresa": "IRSA", "lamina": 1, "ley": "NY", "calificacion": "-", 
         "cupon_anual": 8.00, "vr_actual": 100.0,
         "descripcion": "Desarrolladora inmobiliaria (shoppings, oficinas).", # <--- A COMPLETAR
         "fechas": [date(2025, 3, 31), date(2025, 9, 30), date(2026, 3, 31), date(2026, 9, 30), date(2027, 3, 31), date(2027, 9, 30), date(2028, 3, 31), date(2028, 9, 30), date(2029, 3, 31), date(2029, 9, 30), date(2030, 3, 31), date(2030, 9, 30), date(2031, 3, 31), date(2031, 9, 30), date(2032, 3, 31), date(2032, 9, 30), date(2033, 3, 31), date(2033, 9, 30), date(2034, 3, 31), date(2034, 9, 30), date(2035, 3, 31)], 
@@ -80,7 +80,7 @@ bonos_maestros = {
     },
     "VSCV": {
         "ars": "VSCVO", "usd": "VSCVD", 
-        "empresa": "Vista Energy", "lamina": 0, "ley": "-", "calificacion": "-", 
+        "empresa": "Vista Energy", "lamina": 1000, "ley": "NY", "calificacion": "-", 
         "cupon_anual": 8.50, "vr_actual": 100.0,
         "descripcion": "Empresa enfocada en exploración y producción de petróleo y gas (Vaca Muerta).", # <--- A COMPLETAR
         "fechas": [date(2025, 6, 10), date(2025, 12, 10), date(2026, 6, 10), date(2026, 12, 10), date(2027, 6, 10), date(2027, 12, 10), date(2028, 6, 10), date(2028, 12, 10), date(2029, 6, 10), date(2029, 12, 10), date(2030, 6, 10), date(2030, 12, 10), date(2031, 6, 10), date(2031, 12, 10), date(2032, 6, 10), date(2032, 12, 10), date(2033, 6, 10)], 
@@ -88,7 +88,7 @@ bonos_maestros = {
     },
     "PLC5": {
         "ars": "PLC5O", "usd": "PLC5D", 
-        "empresa": "Pampa Energía", "lamina": 0, "ley": "-", "calificacion": "-", 
+        "empresa": "Pampa Energía", "lamina": 1000, "ley": "NY", "calificacion": "-", 
         "cupon_anual": 8.12, "vr_actual": 100.0,
         "descripcion": "Generación, transmisión y distribución de energía eléctrica, y gas.", # <--- A COMPLETAR
         "fechas": [date(2025, 11, 18), date(2026, 5, 18), date(2026, 11, 18), date(2027, 5, 18), date(2027, 11, 18), date(2028, 5, 18), date(2028, 11, 18), date(2029, 5, 18), date(2029, 11, 18), date(2030, 5, 18), date(2030, 11, 18), date(2031, 5, 18)], 
@@ -96,7 +96,7 @@ bonos_maestros = {
     },
     "TSC4": {
         "ars": "TSC4O", "usd": "TSC4D", 
-        "empresa": "Tecpetrol", "lamina": 0, "ley": "-", "calificacion": "-", 
+        "empresa": "Tecpetrol", "lamina": 1000, "ley": "NY", "calificacion": "-", 
         "cupon_anual": 7.76, "vr_actual": 100.0,
         "descripcion": "Compañía de energía, enfocada en la exploración y producción de hidrocarburos.", # <--- A COMPLETAR
         "fechas": [date(2025, 11, 20), date(2026, 5, 20), date(2026, 11, 20), date(2027, 5, 20), date(2027, 11, 20), date(2028, 5, 20), date(2028, 11, 20), date(2029, 5, 20), date(2029, 11, 20), date(2030, 5, 20), date(2030, 11, 20), date(2031, 5, 20), date(2031, 11, 20), date(2032, 5, 20), date(2032, 11, 20), date(2033, 5, 20), date(2033, 11, 20), date(2034, 5, 20), date(2034, 11, 20), date(2035, 5, 20), date(2035, 11, 20)], 
@@ -104,7 +104,7 @@ bonos_maestros = {
     },
     "MGCO": {
         "ars": "MGCOO", "usd": "MGCOD", 
-        "empresa": "CGC", "lamina": 0, "ley": "-", "calificacion": "-", 
+        "empresa": "CGC", "lamina": 1000, "ley": "NY", "calificacion": "-", 
         "cupon_anual": 7.88, "vr_actual": 100.0,
         "descripcion": "Compañía General de Combustibles.", # <--- A COMPLETAR
         "fechas": [date(2024, 12, 16), date(2025, 6, 16), date(2025, 12, 16), date(2026, 6, 16), date(2026, 12, 16), date(2027, 6, 16), date(2027, 12, 16), date(2028, 6, 16), date(2028, 12, 16), date(2029, 6, 16), date(2029, 12, 16), date(2030, 6, 16), date(2030, 12, 16), date(2031, 6, 16), date(2031, 12, 16), date(2032, 6, 16), date(2032, 12, 16), date(2033, 6, 16), date(2033, 12, 16), date(2034, 6, 16), date(2034, 12, 16)], 
@@ -112,7 +112,7 @@ bonos_maestros = {
     },
     "TTCD": {
         "ars": "TTCDO", "usd": "TTCDD", 
-        "empresa": "Transportadora Gas", "lamina": 0, "ley": "-", "calificacion": "-", 
+        "empresa": "Transportadora Gas", "lamina": 1000, "ley": "NY", "calificacion": "-", 
         "cupon_anual": 7.62, "vr_actual": 100.0,
         "descripcion": "Transporte de gas natural.", # <--- A COMPLETAR
         "fechas": [date(2025, 11, 3), date(2026, 5, 3), date(2026, 11, 3), date(2027, 5, 3), date(2027, 11, 3), date(2028, 5, 3), date(2028, 11, 3), date(2029, 5, 3), date(2029, 11, 3), date(2030, 5, 3), date(2030, 11, 3)], 
@@ -120,7 +120,7 @@ bonos_maestros = {
     },
     "BACG": {
         "ars": "BACGO", "usd": "BACGD", 
-        "empresa": "Banco Macro", "lamina": 0, "ley": "-", "calificacion": "-", 
+        "empresa": "Banco Macro", "lamina": 1000, "ley": "NY", "calificacion": "-", 
         "cupon_anual": 8.00, "vr_actual": 100.0,
         "descripcion": "Entidad bancaria privada de Argentina.", # <--- A COMPLETAR
         "fechas": [date(2025, 6, 23), date(2025, 12, 23), date(2026, 6, 23), date(2026, 12, 23), date(2027, 6, 23), date(2027, 12, 23), date(2028, 6, 23), date(2028, 12, 23), date(2029, 6, 23)], 
